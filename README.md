@@ -1,4 +1,4 @@
-#### canary
+#### can-uds-diagnostic-agent
 
 AI diagnostic agent for simulated vehicle CAN/UDS traffic. Reads DTCs off a virtual ECU and explains them in plain English using a local LLM.
 
