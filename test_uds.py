@@ -12,7 +12,7 @@ DID_COOLANT_TEMP = 0x0505
 # these tests require uds_ecu.py to already be running in the background
 @pytest.fixture
 def bus():
-    b = can.interface.Bus(channel='vcan0', bustype='socketcan')
+    b = can.interface.Bus(channel='vcan0', interface='socketcan')
     yield b
     b.shutdown()
 
