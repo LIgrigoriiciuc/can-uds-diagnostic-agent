@@ -1,1 +1,1 @@
-# can-uds-diagnostic-agent
+The Python layer uses cantools to dynamically parse the DBC, matching how diagnostic tools work in practice. The C layer hardcodes the same scale/offset values directly, matching how embedded firmware actually implements a fixed message format - the DBC served as the spec I implemented against, not something the C code reads at runtime.
