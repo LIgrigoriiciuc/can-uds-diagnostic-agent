@@ -1,1 +1,3 @@
 libcancodec.so
+__pycache__/
+*.pyc
