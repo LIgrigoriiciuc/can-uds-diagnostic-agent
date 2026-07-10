@@ -38,7 +38,7 @@ def test_read_engine_rpm(bus):
 
 def test_read_coolant_temp(bus):
     response = send_and_receive(bus, DID_COOLANT_TEMP)
-    assert response is not None, "No response received (timeout) — is uds_ecu.py running?"
+    assert response is not None, "No response received (timeout) - is uds_ecu.py running?"
     assert response.data[0] == 0x62
 
     raw = response.data[3]
@@ -56,7 +56,7 @@ def test_read_dtc(bus):
     bus.send(msg)
     response = bus.recv(timeout=2.0)
 
-    assert response is not None, "No response — is uds_ecu.py running?"
+    assert response is not None, "No response - is uds_ecu.py running?"
     assert response.data[0] == 0x59, "Expected positive DTC response (0x59)"
 
     dtc_code = (response.data[3] << 8) | response.data[4]
