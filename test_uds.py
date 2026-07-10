@@ -9,6 +9,9 @@ RESPONSE_ID = 0x7E8
 DID_ENGINE_RPM = 0x0C0C
 DID_COOLANT_TEMP = 0x0505
 
+SID_READ_DTC = 0x19
+SUBFUNC_REPORT_DTC_BY_STATUS_MASK = 0x02
+
 # these tests require uds_ecu.py to already be running in the background
 @pytest.fixture
 def bus():
@@ -46,3 +49,15 @@ def test_unknown_did_returns_negative_response(bus):
     response = send_and_receive(bus, 0xFFFF)  # DID that doesn't exist
     assert response is not None
     assert response.data[0] == 0x7F, "Expected negative response (0x7F)"
+
+def test_read_dtc(bus):
+    request_data = [SID_READ_DTC, SUBFUNC_REPORT_DTC_BY_STATUS_MASK, 0xFF, 0, 0, 0, 0, 0]
+    msg = can.Message(arbitration_id=REQUEST_ID, data=request_data, is_extended_id=False)
+    bus.send(msg)
+    response = bus.recv(timeout=2.0)
+
+    assert response is not None, "No response — is uds_ecu.py running?"
+    assert response.data[0] == 0x59, "Expected positive DTC response (0x59)"
+
+    dtc_code = (response.data[3] << 8) | response.data[4]
+    assert dtc_code == 0x0171, f"Expected DTC 0x0171, got {hex(dtc_code)}"
